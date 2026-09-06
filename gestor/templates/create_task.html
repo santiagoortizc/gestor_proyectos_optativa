@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nueva Tarea</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+
+  <main class="max-w-3xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+
+    <header class="mb-8">
+      <a href="{% url 'project_detail' project.id %}"
+         class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors duration-150">
+        &larr; Volver a detalle del proyecto
+      </a>
+      <h1 class="mt-2 text-2xl sm:text-3xl font-semibold text-gray-900">
+        Nueva Tarea
+      </h1>
+      <p class="mt-1 text-sm text-gray-500">Completa los datos para registrar una nueva tarea</p>
+    </header>
+
+    <div class="bg-white border border-gray-200 rounded-lg p-6 sm:p-8 shadow-sm">
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="space-y-6">
+
+          <div>
+            <label for="title" class="block text-xs font-medium uppercase tracking-wide text-gray-400 mb-1">
+              Título
+            </label>
+            <input type="text" id="title" name="title" required
+                   class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          </div>
+
+          <div>
+            <label for="description" class="block text-xs font-medium uppercase tracking-wide text-gray-400 mb-1">
+              Descripción
+            </label>
+            <textarea id="description" name="description" rows="4" required
+                      class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+            <div>
+              <label for="priority" class="block text-xs font-medium uppercase tracking-wide text-gray-400 mb-1">
+                Prioridad
+              </label>
+              <select id="priority" name="priority" required
+                      class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="low">Baja</option>
+                <option value="medium" selected>Media</option>
+                <option value="high">Alta</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="status" class="block text-xs font-medium uppercase tracking-wide text-gray-400 mb-1">
+                Estado
+              </label>
+              <select id="status" name="status" required
+                      class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="pending" selected>Pendiente</option>
+                <option value="in_progress">En progreso</option>
+                <option value="completed">Completada</option>
+              </select>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="mt-8 flex items-center gap-3">
+          <button type="submit"
+                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors duration-150">
+            Crear Tarea
+          </button>
+          <a href="{% url 'project_detail' project.id %}"
+             class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors duration-150">
+            Cancelar
+          </a>
+        </div>
+
+      </form>
+
+    </div>
+
+  </main>
+
+</body>
+</html>

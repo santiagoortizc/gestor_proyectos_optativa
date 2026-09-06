@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Proyectos</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+
+    <main class="max-w-3xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+
+        <header class="mb-8">
+            <h1 class="text-2xl sm:text-3xl font-semibold text-gray-900">Proyectos</h1>
+            <p class="mt-1 text-sm text-gray-500">Listado de proyectos registrados</p>
+        </header>
+
+        {% if projects %}
+        <ul class="space-y-4">
+            {% for project in projects %}
+            <li class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow duration-150">
+                <article>
+                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+
+                        <div class="flex-1 min-w-0">
+                            <h2 class="text-lg font-medium text-gray-900 truncate">
+                                {{ project.name }}
+                            </h2>
+                            <p class="mt-1 text-sm text-gray-600 line-clamp-2">
+                                {{ project.description }}
+                            </p>
+                            <p class="mt-2 text-xs text-gray-400">
+                                Duración: {{ project.duration }} días
+                            </p>
+                        </div>
+
+                        <nav class="flex items-center gap-3 shrink-0" aria-label="Acciones del proyecto">
+                            <a href="{% url 'project_detail' project.id %}"
+                               class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-blue-600 border border-blue-200 rounded-md hover:bg-blue-50 transition-colors duration-150">
+                                Ver detalle
+                            </a>
+                            <a href="{% url 'delete_project' project.id %}"
+                              onclick="return confirm('¿Estás seguro de que deseas eliminar este proyecto?');"
+                               class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-red-600 border border-red-200 rounded-md hover:bg-red-50 transition-colors duration-150">
+                                Eliminar
+                            </a>
+                        </nav>
+
+                    </div>
+                </article>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="text-center py-16 border border-dashed border-gray-300 rounded-lg">
+            <p class="text-gray-500">No hay proyectos registrados todavía.</p>
+        </div>
+        {% endif %}
+
+    </main>
+
+</body>
+</html>
