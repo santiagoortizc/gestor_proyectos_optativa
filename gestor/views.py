@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.views.decorators.http import require_POST
 from .models import Project, Task
 
 
@@ -18,7 +19,11 @@ def projects(request):
 
 def project_detail(request, project_id):
     project = Project.objects.get(id=project_id)
-    return render(request, "project_detail.html", {"project": project})
+    return render(
+        request,
+        "project_detail.html",
+        {"project": project, "tasks": project.tasks.all()},
+    )
 
 
 def new_project(request):
@@ -93,3 +98,23 @@ def new_task(request, project_id):
             "status_choices": Task.STATUS_CHOICES,
         },
     )
+
+
+@require_POST
+def update_task_status(request, task_id):
+    task = Task.objects.get(id=task_id)
+    if task.status == "pending":
+        task.status = "in_progress"
+        task.save()
+    elif task.status == "in_progress":
+        task.status = "completed"
+        task.save()
+
+    return redirect("project_detail", project_id=task.project.id)
+
+
+def update_task_completed(request, task_id):
+    task = Task.objects.get(id=task_id)
+    task.status = "completed"
+    task.save()
+    return redirect("project_detail", project_id=task.project.id)

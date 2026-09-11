@@ -17,4 +17,14 @@ urlpatterns = [
         views.new_task,
         name="new_task",
     ),
+    path(
+        "tasks/<int:task_id>/update-status/",
+        views.update_task_status,
+        name="update_task_status",
+    ),
+    path(
+        "tasks/<int:task_id>/update-completed/",
+        views.update_task_completed,
+        name="update_task_completed",
+    ),
 ]
