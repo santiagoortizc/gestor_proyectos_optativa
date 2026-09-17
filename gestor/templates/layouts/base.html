@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Gestor de Proyectos{% endblock %}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-50 text-gray-800 min-h-screen">
+    <nav class="bg-white border-b border-gray-200">
+      <div
+        class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center gap-6"
+      >
+        <a
+          href="{% url 'home' %}"
+          class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-150"
+        >
+          Inicio
+        </a>
+        <a
+          href="{% url 'projects' %}"
+          class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-150"
+        >
+          Proyectos
+        </a>
+      </div>
+    </nav>
+    {% block content %} {% endblock %}
+  </body>
+</html>

@@ -10,6 +10,7 @@ class Project(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     duration = models.IntegerField()
+    image = models.ImageField(upload_to='projects', default='projects/logo.png')
 
 
 class Task(models.Model):
