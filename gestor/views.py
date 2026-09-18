@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 from .models import Project, Task
 
-
+@login_required
 def hello(request):
-    return HttpResponse("Hello, world!")
+    return render(request, "home.html")
 
 
 def about(request):
-    return HttpResponse("<h1>About page</h1>")
+    return HttpResponse("<h1>About page</h1>") 
 
 
 def projects(request):
@@ -27,24 +28,17 @@ def project_detail(request, project_id):
 
 
 def new_project(request):
-    # project = Project(
-    #     name="Nuevo Proyecto", description="Descripción del proyecto", duration=30
-    # )
-    # project.save()
-
-    # Project.objects.create(
-    #     name="Nuevo Proyecto", description="Descripción del proyecto", duration=30
-    # )
-
-    # return HttpResponse("Proyecto creado")
-
     if request.method == "POST":
         name = request.POST.get("name")
         description = request.POST.get("description")
         duration = request.POST.get("duration")
+        image = request.FILES.get("image")
 
         if name and description and duration:
             project = Project(name=name, description=description, duration=duration)
+            
+            if image:
+                project.image = image
             project.save()
 
         return redirect("projects")
