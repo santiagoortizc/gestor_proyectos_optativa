@@ -1,3 +1,7 @@
 # Created by venv; see https://docs.python.org/3/library/venv.html
 .venv/
 db.sqlite3
+
+accounts/__pycache__
+gestor/__pycache__
+__pycache__
