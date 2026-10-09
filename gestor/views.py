@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from .models import Project, Task
 
 @login_required
@@ -12,12 +12,12 @@ def hello(request):
 def about(request):
     return HttpResponse("<h1>About page</h1>") 
 
-
+@permission_required('gestor.view_project', raise_exception=True) 
 def projects(request):
     projects = Project.objects.all()
     return render(request, "projects.html", {"projects": projects})
 
-
+@permission_required('gestor.view_task', raise_exception=True)
 def project_detail(request, project_id):
     project = Project.objects.get(id=project_id)
     return render(
@@ -26,7 +26,7 @@ def project_detail(request, project_id):
         {"project": project, "tasks": project.tasks.all()},
     )
 
-
+@permission_required('gestor.add_project', raise_exception=True)
 def new_project(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -44,13 +44,13 @@ def new_project(request):
         return redirect("projects")
     return render(request, "create_project.html")
 
-
+@permission_required('gestor.delete_project', raise_exception=True)
 def delete_project(request, project_id):
     project = Project.objects.get(id=project_id)
     project.delete()
     return redirect("projects")
 
-
+@permission_required('gestor.change_project', raise_exception=True)
 def edit_project(request, project_id):
     project = Project.objects.get(id=project_id)
 
@@ -63,7 +63,7 @@ def edit_project(request, project_id):
 
     return render(request, "edit_project.html", {"project": project})
 
-
+@permission_required('gestor.add_task', raise_exception=True)
 def new_task(request, project_id):
     project = Project.objects.get(id=project_id)
 
@@ -93,8 +93,8 @@ def new_task(request, project_id):
         },
     )
 
-
 @require_POST
+@permission_required('gestor.change_task', raise_exception=True)
 def update_task_status(request, task_id):
     task = Task.objects.get(id=task_id)
     if task.status == "pending":
@@ -106,7 +106,7 @@ def update_task_status(request, task_id):
 
     return redirect("project_detail", project_id=task.project.id)
 
-
+@permission_required('gestor.change_task', raise_exception=True)
 def update_task_completed(request, task_id):
     task = Task.objects.get(id=task_id)
     task.status = "completed"
